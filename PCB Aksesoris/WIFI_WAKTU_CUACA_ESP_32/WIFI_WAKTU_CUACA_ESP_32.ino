@@ -3,8 +3,8 @@
 #include <WiFiUdp.h>
 #include <HTTPClient.h>
 #include <Arduino_JSON.h>
-const char* ssid = "AMS";
-const char* password = "87654321";
+const char* ssid = "************";
+const char* password = "***********";
 
 WiFiUDP ntpUDP;
 NTPClient timeClient(ntpUDP, "pool.ntp.org");
@@ -20,29 +20,27 @@ unsigned long timerDelay = 10000;
 String jsonBuffer;
 
 void WiFiStationConnected(WiFiEvent_t event, WiFiEventInfo_t info){
-  Serial.println("Connected to AP successfully!");
+  Serial.println("Terhubung ke WiFi");
 }
 
 void WiFiGotIP(WiFiEvent_t event, WiFiEventInfo_t info){
-  Serial.println("WiFi connected");
-  Serial.println("IP address: ");
+  Serial.println("Terhubung ke WiFi");
+  Serial.println("Alamat IP: ");
   Serial.println(WiFi.localIP());
 }
 
 void WiFiStationDisconnected(WiFiEvent_t event, WiFiEventInfo_t info){
-  Serial.println("Disconnected from WiFi access point");
-  Serial.print("WiFi lost connection. Reason: ");
+  Serial.println("Terputus dari WiFi");
+  Serial.print("Alasan: ");
   Serial.println(info.disconnected.reason);
-  Serial.println("Trying to Reconnect");
+  Serial.println("Mencoba menghubungkan");
   WiFi.begin(ssid, password);
 }
 
 void setup(){
   Serial.begin(115200);
 
-  // delete old config
   WiFi.disconnect(true);
-
   delay(1000);
 
   WiFi.onEvent(WiFiStationConnected, SYSTEM_EVENT_STA_CONNECTED);
@@ -55,8 +53,6 @@ void setup(){
   WiFi.removeEvent(eventID);*/
 
   WiFi.begin(ssid, password);
-    
-  Serial.println();
   Serial.println();
   Serial.println("Wait for WiFi... ");
   timeClient.begin();
